@@ -3,12 +3,14 @@ import { ADMIN_LOGIN, ADMIN_PASSWORD, PORT } from './config';
 import { cardsRouter } from './routers/cards.router';
 import { createTables } from './database/create-tables';
 import basicAuth from 'express-basic-auth';
+import { logger } from './logger';
 
 async function run() {
 	await createTables();
 
 	const app = express();
 	app.use(express.json());
+	app.use(logger);
 	app.use(
 		basicAuth({
 			users: { [ADMIN_LOGIN]: ADMIN_PASSWORD },
